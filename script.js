@@ -15,6 +15,7 @@ const SECOND_OPERATION_SCREEN = document.getElementById('secondTermScreen');
 EQUALS_BUTTON.addEventListener('click', evaluate);
 CLEAR_BUTTON.addEventListener('click', clearScreen);
 DELETE_BUTTON.addEventListener('click', deleteNum);
+DECIMAL_BUTTON.addEventListener('click', setDecimal);
 
 NUMBER_BUTTONS.forEach((button) => {
     button.addEventListener('click', () => {
@@ -27,6 +28,16 @@ OPERATOR_BUTTONS.forEach((button) => {
         updateOperation(button.textContent);
     });
 });
+
+//Adds a decimal to the current term being entered.
+function setDecimal() {
+    if(updateScreen) resetScreen();
+    if(SECOND_OPERATION_SCREEN.textContent === '') {
+        SECOND_OPERATION_SCREEN.textContent = '0';
+    }
+    if(SECOND_OPERATION_SCREEN.textContent.includes('.')) return;
+    SECOND_OPERATION_SCREEN.textContent += '.';
+}
 
 //Deletes the last number added to the current term the user is entering.
 function deleteNum() {
