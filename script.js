@@ -16,6 +16,7 @@ EQUALS_BUTTON.addEventListener('click', evaluate);
 CLEAR_BUTTON.addEventListener('click', clearScreen);
 DELETE_BUTTON.addEventListener('click', deleteNum);
 DECIMAL_BUTTON.addEventListener('click', setDecimal);
+window.addEventListener('keydown', keyboardInput);
 
 NUMBER_BUTTONS.forEach((button) => {
     button.addEventListener('click', () => {
@@ -28,6 +29,18 @@ OPERATOR_BUTTONS.forEach((button) => {
         updateOperation(button.textContent);
     });
 });
+
+//Handles the any user input from the keyboard.
+function keyboardInput(e) {
+    if(e.key >= 0 && e.key <= 9) updateNumber(e.key);
+    if(e.key === '.') setDecimal();
+    if(e.key === '=' || e.key === 'Enter') evaluate();
+    if(e.key === 'Backspace') deleteNum();
+    if(e.key === 'Escape') clearScreen();
+    if(e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' ){
+        updateOperation(e.key);
+    }
+}
 
 //Adds a decimal to the current term being entered.
 function setDecimal() {
@@ -53,12 +66,16 @@ function clearScreen() {
     currentOperation = null;
 }
 
+function roundAnswer (num) {
+    return Math.round(num * 1000) / 1000;
+}
+
 //Checks if a valid operation can be performed. Gets the answer. Output answer.
 function evaluate() {
     if(currentOperation === null || updateScreen) return;
     if(currentOperation === '/' && currentOperation.textContent === '0') return;
     secondTerm = SECOND_OPERATION_SCREEN.textContent;
-    SECOND_OPERATION_SCREEN.textContent = operate(currentOperation, firstTerm, secondTerm);
+    SECOND_OPERATION_SCREEN.textContent = roundAnswer(operate(currentOperation, firstTerm, secondTerm));
     FIRST_OPERATION_SCREEN.textContent = `${firstTerm} ${currentOperation} ${secondTerm} = `;
     currentOperation = null;
 }
