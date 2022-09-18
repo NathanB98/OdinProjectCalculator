@@ -1,4 +1,4 @@
-let operation = null;
+let currentOperation = null;
 let firstTerm = '';
 let secondTerm = '';
 let updateScreen = false;
@@ -9,8 +9,10 @@ const DECIMAL_BUTTON = document.getElementById('decimalBtn');
 const EQUALS_BUTTON = document.getElementById('equalsBtn');
 const CLEAR_BUTTON = document.getElementById('clearBtn');
 const DELETE_BUTTON = document.getElementById('deleteBtn');
-const FIRST_TERM_SCREEN = document.getElementById('firstTermScreen');
-const SECOND_TERM_SCREEN = document.getElementById('secondTermScreen');
+const FIRST_OPERATION_SCREEN = document.getElementById('firstTermScreen');
+const SECOND_OPERATION_SCREEN = document.getElementById('secondTermScreen');
+
+EQUALS_BUTTON.addEventListener('click', evaluate);
 
 NUMBER_BUTTONS.forEach((button) => {
     button.addEventListener('click', () => {
@@ -24,20 +26,62 @@ OPERATOR_BUTTONS.forEach((button) => {
     });
 });
 
+//Checks if a valid operation can be performed. Gets the answer. Output answer.
+function evaluate() {
+    if(currentOperation === null || updateScreen) return;
+    if(currentOperation === '/' && currentOperation.textContent === '0'){
+        alert("You cannot divide by 0");
+        return;
+    }
+    secondTerm = SECOND_OPERATION_SCREEN.textContent;
+    SECOND_OPERATION_SCREEN.textContent = operate(currentOperation, firstTerm, secondTerm);
+    FIRST_OPERATION_SCREEN.textContent = `${firstTerm} ${currentOperation} ${secondTerm} = `;
+    currentOperation = null;
+}
+
+//Set the operator to the user selection.
+function updateOperation(operator) {
+    if(currentOperation !== null) evaluateInputs();
+    firstTerm = SECOND_OPERATION_SCREEN.textContent;
+    currentOperation = operator
+    FIRST_OPERATION_SCREEN.textContent = `${firstTerm} ${currentOperation}`;
+    updateScreen = true;
+}
+
+//Appends number to current term being constructed.
+function updateNumber(num) {
+    if(SECOND_OPERATION_SCREEN .textContent === '0' || updateScreen) {
+        resetScreen();
+    }
+    
+    SECOND_OPERATION_SCREEN.textContent += num;
+}
+
+function resetScreen() {
+    SECOND_OPERATION_SCREEN.textContent = '';
+    updateScreen = false;
+}
+
+//Converts both term strings to numbers. Uses operator to run appropriate operation on given values.
 function operate(operator, valueA, valueB) {
+    valueA = Number(valueA);
+    valueB = Number(valueB);
+
     switch(operator) {
-        case "add":
-            addition(valueA, valueB);
-            break;
-        case "minus":
-            subtraction(valueA, valueB);
-            break;
-        case "multiply":
-            multiplication(valueA, valueB);
-            break;
-        case "divide":
-            division(valueA, valueB);
-            break;
+        case "+":
+            return addition(valueA, valueB);
+        case "-":
+            return subtraction(valueA, valueB);
+        case "x":
+            return multiplication(valueA, valueB);
+        case "/":
+            if(valueB === 0) {
+                return null
+            } else {
+                return division(valueA, valueB);
+            }
+        default:
+            return null;
     }
 
 }
