@@ -13,6 +13,7 @@ const FIRST_OPERATION_SCREEN = document.getElementById('firstTermScreen');
 const SECOND_OPERATION_SCREEN = document.getElementById('secondTermScreen');
 
 EQUALS_BUTTON.addEventListener('click', evaluate);
+CLEAR_BUTTON.addEventListener('click', clearScreen);
 
 NUMBER_BUTTONS.forEach((button) => {
     button.addEventListener('click', () => {
@@ -25,6 +26,15 @@ OPERATOR_BUTTONS.forEach((button) => {
         updateOperation(button.textContent);
     });
 });
+
+//Clears screen of the expression and the result. Resets variables for further use.
+function clearScreen() {
+    SECOND_OPERATION_SCREEN.textContent = '0';
+    FIRST_OPERATION_SCREEN.textContent = '';
+    firstTerm = '';
+    secondTerm = '';
+    currentOperation = null;
+}
 
 //Checks if a valid operation can be performed. Gets the answer. Output answer.
 function evaluate() {
@@ -91,16 +101,13 @@ function addition(x, y) {
 }
 
 function subtraction(x, y) {
-    console.log('sub works');
     return x - y;
 }
 
 function multiplication(x, y) {
-    console.log('multi works');
     return x * y;
 }
 
 function division(x, y) {
-    console.log('division works');
     return x / y;
 }
