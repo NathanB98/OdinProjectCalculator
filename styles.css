@@ -1,0 +1,55 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    gap: 5rem;
+}
+
+div {
+    padding: 0.5rem;
+}
+
+#calcContainer {
+    width: 400px;
+
+    border: solid black 1px;
+}
+
+#outputContainer {
+    min-height: 6rem;
+
+    border: solid black 1px;
+    text-align: right;
+    padding: 0;
+}
+
+.displaySum {
+    font-size: 1rem;
+}
+
+.displayOutputCalculation {
+    font-size: 2rem;
+}
+
+#buttonGridContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+
+    padding-top: 1rem;
+}
+
+.btn {
+    padding: 2rem;
+
+    font-size: 1rem;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
