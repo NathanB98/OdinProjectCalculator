@@ -1,15 +1,28 @@
 let operation = null;
 let firstTerm = '';
 let secondTerm = '';
+let updateScreen = false;
 
 const NUMBER_BUTTONS = document.querySelectorAll('[data-number]');
-const OPERATOR_BUTTONS = document.querySelectorAll('data-operator');
+const OPERATOR_BUTTONS = document.querySelectorAll('[data-operator]');
 const DECIMAL_BUTTON = document.getElementById('decimalBtn');
 const EQUALS_BUTTON = document.getElementById('equalsBtn');
 const CLEAR_BUTTON = document.getElementById('clearBtn');
 const DELETE_BUTTON = document.getElementById('deleteBtn');
 const FIRST_TERM_SCREEN = document.getElementById('firstTermScreen');
 const SECOND_TERM_SCREEN = document.getElementById('secondTermScreen');
+
+NUMBER_BUTTONS.forEach((button) => {
+    button.addEventListener('click', () => {
+        updateNumber(button.textContent);
+    });
+});
+
+OPERATOR_BUTTONS.forEach((button) => {
+    button.addEventListener('click', () => {
+        updateOperation(button.textContent);
+    });
+});
 
 function operate(operator, valueA, valueB) {
     switch(operator) {
