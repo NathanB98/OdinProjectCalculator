@@ -14,6 +14,7 @@ const SECOND_OPERATION_SCREEN = document.getElementById('secondTermScreen');
 
 EQUALS_BUTTON.addEventListener('click', evaluate);
 CLEAR_BUTTON.addEventListener('click', clearScreen);
+DELETE_BUTTON.addEventListener('click', deleteNum);
 
 NUMBER_BUTTONS.forEach((button) => {
     button.addEventListener('click', () => {
@@ -27,6 +28,11 @@ OPERATOR_BUTTONS.forEach((button) => {
     });
 });
 
+//Deletes the last number added to the current term the user is entering.
+function deleteNum() {
+    SECOND_OPERATION_SCREEN.textContent = SECOND_OPERATION_SCREEN.textContent.toString().slice(0, -1);
+}
+
 //Clears screen of the expression and the result. Resets variables for further use.
 function clearScreen() {
     SECOND_OPERATION_SCREEN.textContent = '0';
@@ -39,10 +45,7 @@ function clearScreen() {
 //Checks if a valid operation can be performed. Gets the answer. Output answer.
 function evaluate() {
     if(currentOperation === null || updateScreen) return;
-    if(currentOperation === '/' && currentOperation.textContent === '0'){
-        alert("You cannot divide by 0");
-        return;
-    }
+    if(currentOperation === '/' && currentOperation.textContent === '0') return;
     secondTerm = SECOND_OPERATION_SCREEN.textContent;
     SECOND_OPERATION_SCREEN.textContent = operate(currentOperation, firstTerm, secondTerm);
     FIRST_OPERATION_SCREEN.textContent = `${firstTerm} ${currentOperation} ${secondTerm} = `;
@@ -85,7 +88,8 @@ function operate(operator, valueA, valueB) {
         case "x":
             return multiplication(valueA, valueB);
         case "/":
-            if(valueB === 0) {
+            if(valueA === 0 || valueB === 0) {
+                alert('You cannot divide by 0');
                 return null
             } else {
                 return division(valueA, valueB);
